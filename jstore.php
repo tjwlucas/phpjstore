@@ -76,8 +76,11 @@ class jstore
     public function admin($key)
     {
         $default = $this->get($key)->toArray();
+        ob_start();
+        include($this->datapath."/schemas/".$key.".json");
+        $schema = ob_get_clean();
         foreach ($default as $arraykey => $entry) {
-            $default[$arraykey] = ', "default": '.json_encode($entry,JSON_PRETTY_PRINT);
+            $schema = str_replace('"'.$arraykey.'": {', '"'.$arraykey.'": { "default": '.json_encode($entry,JSON_PRETTY_PRINT).',', $schema);
         }
         ob_start();
         include('admintemplate.php');

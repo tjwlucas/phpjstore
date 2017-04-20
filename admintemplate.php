@@ -15,7 +15,7 @@
     disable_properties: true,
     disable_collapse: true,
     //remove_empty_properties: true,
-        schema: <?php include($this->datapath."/schemas/".$key.".json"); ?>
+        schema: <?= $schema ?>
     });
     
     // Hook up the submit button to log to the console
