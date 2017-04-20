@@ -38,4 +38,8 @@ class jstore
         return $array;
     }
 
+    public function admin($key){
+        $default = $this->get($key)->toArray();
+        include('admintemplate.php');
+    }
 }
