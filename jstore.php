@@ -79,9 +79,11 @@ class jstore
         ob_start();
         include($this->datapath."/schemas/".$key.".json");
         $schema = ob_get_clean();
+        $schema_array = json_decode($schema, True);
         foreach ($default as $arraykey => $entry) {
-            $schema = str_replace('"'.$arraykey.'": {', '"'.$arraykey.'": { "default": '.json_encode($entry,JSON_PRETTY_PRINT).',', $schema);
+            $schema_array['properties'][$arraykey]['default'] = $entry;
         }
+        $schema = json_encode($schema_array,JSON_PRETTY_PRINT);
         ob_start();
         include('admintemplate.php');
         $output = ob_get_clean();
