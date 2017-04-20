@@ -20,9 +20,8 @@
     
     // Hook up the submit button to log to the console
     document.getElementById('<?= $key ?>_submit').addEventListener('click',function() {
-        /*$.post( "/admin/settings/set/<?= $key ?>", { "settings": JSON.stringify(<?= $key ?>_editor.getValue(), null, 2) } , function( data ) {
+        $.post( "", { "key": "<?= $key ?>", "json": JSON.stringify(<?= $key ?>_editor.getValue(), null, 2) } , function( data ) {
             location.reload();
-        });*/
-        alert(JSON.stringify(<?= $key ?>_editor.getValue(), null, 2));
+        });
     });
     </script>

@@ -92,4 +92,16 @@ class jstore
         $storedjson = json_encode($array,JSON_PRETTY_PRINT);
         return file_put_contents($this->datapath."/global.json", $storedjson);
     }
+
+    private function storeJSON($key, $json){
+        return file_put_contents($this->datapath."/data/$key.json", $json);
+    }
+
+    public function registerEndpoint(){
+        if(isset($_POST['key']) AND isset($_POST['json'])){
+            $key = $_POST['key'];
+            $json = $_POST['json'];
+            return $this->storeJSON($key, $json);
+        }
+    }
 }
