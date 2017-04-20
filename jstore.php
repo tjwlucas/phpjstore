@@ -19,6 +19,25 @@ class jstore
         $this->datapath = $saveto;
     }
 
+    public static function dir() {
+        $JSTORE_DIR         = str_replace(DIRECTORY_SEPARATOR, '/', __DIR__);
+        $JSTORE_DOCS_ROOT   = str_replace(DIRECTORY_SEPARATOR, '/', isset($_SERVER['DOCUMENT_ROOT']) ? realpath($_SERVER['DOCUMENT_ROOT']) : dirname(__DIR__));
+        return trim(str_replace($JSTORE_DOCS_ROOT, '', $JSTORE_DIR), "/");
+    }
+
+    public static function script($jquery = False) {
+        $output = '';
+        if($jquery == True){
+            $output .= '<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>';
+        }
+        $output .= '<script src="'.jstore::dir().'/jsoneditor.min.js"></script>';
+        return $output;
+    }
+
+    public static function bootstrap3() {
+        return '<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">';
+    }
+
     // Obtain a list of keys (JSON files) stored in datapath
     public function getSets()
     {
@@ -59,7 +78,10 @@ class jstore
         foreach ($default as $arraykey => $entry) {
             $default[$arraykey] = ', "default": '.json_encode($entry,JSON_PRETTY_PRINT);
         }
+        ob_start();
         include('admintemplate.php');
+        $output = ob_get_clean();
+        return $output;
     }
 
     public function getGlobals(){
