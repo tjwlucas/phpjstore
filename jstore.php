@@ -42,24 +42,14 @@ class jstore
 
     public function get($key)
     {
+        $item = new jstoreObject($this);
         if(file_exists($this->datapath.'/data/'.$key.'.json')){
-                $this->json = file_get_contents($this->datapath.'/data/'.$key.'.json');
+                $item->json = file_get_contents($this->datapath.'/data/'.$key.'.json');
         }
         else{
-            $this->json = '{}';
+            $item->json = '{}';
         }
-        return $this;
-    }
-
-    public function toJSON()
-    {
-        return $this->json;
-    }
-
-    public function toArray()
-    {
-        $array = json_decode($this->json, true);
-        return $array;
+        return $item;
     }
 
     public function admin($key)
@@ -93,15 +83,34 @@ class jstore
         return file_put_contents($this->datapath."/global.json", $storedjson);
     }
 
-    private function storeJSON($key, $json){
-        return file_put_contents($this->datapath."/data/$key.json", $json);
-    }
-
     public function registerEndpoint(){
         if(isset($_POST['key']) AND isset($_POST['json'])){
-            $key = $_POST['key'];
-            $json = $_POST['json'];
-            return $this->storeJSON($key, $json);
+            $data = new jstoreObject($this);
+            $data->key = $_POST['key'];
+            $data->json = $_POST['json'];
+            return $data->save();
         }
+    }
+}
+
+class jstoreObject {
+    public $json = '';
+    public $key = '';
+    public function __construct($store){
+        $this->store = $store;
+    }
+    public function save(){
+        return file_put_contents($this->store->datapath."/data/$this->key.json", $this->json);
+    }
+    
+    public function toJSON()
+    {
+        return $this->json;
+    }
+
+    public function toArray()
+    {
+        $array = json_decode($this->json, true);
+        return $array;
     }
 }
