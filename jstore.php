@@ -40,6 +40,9 @@ class jstore
 
     public function admin($key){
         $default = $this->get($key)->toArray();
+        foreach($default as $arraykey => $entry){
+            $default[$arraykey] = json_encode($entry);
+        }
         include('admintemplate.php');
     }
 }
