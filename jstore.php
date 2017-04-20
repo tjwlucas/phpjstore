@@ -49,6 +49,7 @@ class jstore
         else{
             $item->json = '{}';
         }
+        $item->key = $key;
         return $item;
     }
 
@@ -112,5 +113,14 @@ class jstoreObject {
     {
         $array = json_decode($this->json, true);
         return $array;
+    }
+
+    public function set($newvalues){
+        $array = $this->toArray();
+        foreach($newvalues as $key => $value){
+            $array[$key] = $value;
+        }
+        $this->json = json_encode($array, JSON_PRETTY_PRINT);
+        return $this;
     }
 }
