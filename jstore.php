@@ -13,6 +13,9 @@ class jstore
         if (!file_exists($saveto.'/schemas')) {
             mkdir($saveto.'/schemas', 0777, true);
         }
+        if (!file_exists($saveto.'/data')) {
+            mkdir($saveto.'/data', 0777, true);
+        }
         $this->datapath = $saveto;
     }
 
@@ -20,8 +23,8 @@ class jstore
     public function getSets()
     {
         $setlist = [];
-        foreach (glob($this->datapath."/*.json") as $file) {
-            preg_match("`".$this->datapath."/(.*).json`", $file, $key, PREG_OFFSET_CAPTURE);
+        foreach (glob($this->datapath."/data/*.json") as $file) {
+            preg_match("`".$this->datapath."/data/(.*).json`", $file, $key, PREG_OFFSET_CAPTURE);
             $setlist[] = $key[1][0];
         }
         return $setlist;
@@ -29,8 +32,8 @@ class jstore
 
     public function get($key)
     {
-        if(file_exists($this->datapath.'/'.$key.'.json')){
-                $this->json = file_get_contents($this->datapath.'/'.$key.'.json');
+        if(file_exists($this->datapath.'/data/'.$key.'.json')){
+                $this->json = file_get_contents($this->datapath.'/data/'.$key.'.json');
         }
         else{
             $this->json = '{}';
@@ -53,23 +56,30 @@ class jstore
     {
         $default = $this->get($key)->toArray();
         foreach ($default as $arraykey => $entry) {
-            $default[$arraykey] = json_encode($entry);
+            $default[$arraykey] = json_encode($entry,JSON_PRETTY_PRINT);
         }
         include('admintemplate.php');
     }
 
     public function setGlobal($array)
     {
-        $storedarray = $this->get('global')->toArray();
+        $storedarray = $this->get('../global')->toArray();
         foreach($array as $arraykey => $value){
             $storedarray[$arraykey] = $value;
         }
-        $storedjson = json_encode($storedarray);
+        $storedjson = json_encode($storedarray,JSON_PRETTY_PRINT);
         return file_put_contents($this->datapath."/global.json", $storedjson);
     }
 
     public function getGlobal($key){
-        $array = $this->get('global')->toArray();
+        $array = $this->get('../global')->toArray();
         return $array[$key];
+    }
+
+    public function deleteGlobal($key){
+        $array = $this->get('../global')->toArray();
+        unset($array[$key]);
+        $storedjson = json_encode($array,JSON_PRETTY_PRINT);
+        return file_put_contents($this->datapath."/global.json", $storedjson);
     }
 }
