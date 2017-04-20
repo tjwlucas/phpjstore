@@ -1,7 +1,9 @@
-    <div id='<?= $key ?>_settings'></div>
-    <span class="pull-right">
-    <button id='<?= $key ?>_submit' class="btn btn-primary">Save <?= $key ?></button>
-    </span>
+    <div class="row">
+        <div id='<?= $key ?>_settings'></div>
+            <span class="pull-right">
+            <button id='<?= $key ?>_submit' class="btn btn-primary">Save <?= $key ?></button>
+        </span>    
+    </div>
 
     <script>
     
