@@ -62,26 +62,24 @@ class jstore
         include('admintemplate.php');
     }
 
+    public function getGlobals(){
+        return $this->get('../global');
+    }
+
     public function setGlobal($array)
     {
-        $storedarray = $this->get('../global')->toArray();
-        foreach($array as $arraykey => $value){
-            $storedarray[$arraykey] = $value;
-        }
-        $storedjson = json_encode($storedarray,JSON_PRETTY_PRINT);
-        return file_put_contents($this->datapath."/global.json", $storedjson);
+        $obj = $this->getGlobals();
+        $obj->set($array);
+        $obj->save();
     }
 
     public function getGlobal($key){
-        $array = $this->get('../global')->toArray();
+        $array = $this->getGlobals()->toArray();
         return $array[$key];
     }
 
     public function deleteGlobal($key){
-        $array = $this->get('../global')->toArray();
-        unset($array[$key]);
-        $storedjson = json_encode($array,JSON_PRETTY_PRINT);
-        return file_put_contents($this->datapath."/global.json", $storedjson);
+        $this->getGlobals()->delete($key)->save();
     }
 
     public function registerEndpoint(){
@@ -120,6 +118,13 @@ class jstoreObject {
         foreach($newvalues as $key => $value){
             $array[$key] = $value;
         }
+        $this->json = json_encode($array, JSON_PRETTY_PRINT);
+        return $this;
+    }
+
+    public function delete($key){
+        $array = $this->toArray();
+        unset($array[$key]);
         $this->json = json_encode($array, JSON_PRETTY_PRINT);
         return $this;
     }
