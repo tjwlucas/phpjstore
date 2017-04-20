@@ -2,8 +2,9 @@
 
 class jstore
 {
-    private $json = '';
-    public $datapath = '';
+    private $json;
+    public $datapath;
+    public $adminpost;
     public function __construct($saveto = '')
     {
         if ($saveto == '') {
@@ -115,8 +116,8 @@ class jstore
 }
 
 class jstoreObject {
-    public $json = '';
-    public $key = '';
+    public $json;
+    public $key;
     public function __construct($store){
         $this->store = $store;
     }
