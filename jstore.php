@@ -30,6 +30,16 @@ class jstore
         return $setlist;
     }
 
+    public function getSchemas()
+    {
+        $setlist = [];
+        foreach (glob($this->datapath."/schemas/*.json") as $file) {
+            preg_match("`".$this->datapath."/schemas/(.*).json`", $file, $key, PREG_OFFSET_CAPTURE);
+            $setlist[] = $key[1][0];
+        }
+        return $setlist;
+    }
+
     public function get($key)
     {
         if(file_exists($this->datapath.'/data/'.$key.'.json')){
@@ -56,7 +66,7 @@ class jstore
     {
         $default = $this->get($key)->toArray();
         foreach ($default as $arraykey => $entry) {
-            $default[$arraykey] = json_encode($entry,JSON_PRETTY_PRINT);
+            $default[$arraykey] = ', "default": '.json_encode($entry,JSON_PRETTY_PRINT);
         }
         include('admintemplate.php');
     }
