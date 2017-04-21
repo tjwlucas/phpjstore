@@ -163,6 +163,10 @@ class jstore
         $this->getGlobals()->delete($key)->save();
     }
 
+    // Place registerEndpoint() at the top of the destination specified in the $adminpost property
+    // Must be placed before any output is sent for the response to return correctly
+    // Rememmber that anyone who can send data to this method can modify your data, so make sure only 
+    // Authorised users have access to wherever you put it!
     public function registerEndpoint()
     {
         if (isset($_POST['key']) and isset($_POST['json'])) {
