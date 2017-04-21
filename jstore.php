@@ -89,7 +89,7 @@ class jstore
     public function get($key)
     {
         $item = new jstoreObject($this);
-        if (file_exists($this->datapath.'/data/'.$key.'.json')) {
+        if ($this->exists($key)) {
                 $item->json = file_get_contents($this->datapath.'/data/'.$key.'.json');
         } else {
             $item->json = '{}';
@@ -98,11 +98,15 @@ class jstore
         return $item;
     }
 
+    public function exists($key){
+        return file_exists($this->datapath.'/data/'.$key.'.json');
+    }
+
     // Returns an admin panel for editing data, as defined in a schema in [datastore]/schemas
     // Make sure you have run jstore::script() on your page first, or nothing will display
     public function admin($key)
     {
-        $defaults = $this->get($key)->toJSON();
+        $defaults = $this->exists($key) ? 'startval: '.$this->get($key)->toJSON().',' : null;
         $schema = file_get_contents($this->datapath."/schemas/".$key.".json");
         ob_start();
         include('admintemplate.php');
