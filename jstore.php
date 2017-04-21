@@ -27,11 +27,11 @@ class jstore
     public function __construct($saveto = '')
     {
         if ($saveto == '') {
-            $saveto = jstore::dir().'/data';
+            $saveto = jstore::fsdir().'/data';
         }
         // If storage destination doesn't exist, initiate it, using defaults
         if (!file_exists($saveto)) {
-            jstore::recurse_copy(jstore::dir().'/defaults', $saveto);
+            jstore::recurse_copy(jstore::fsdir().'/defaults', $saveto);
         }
         $this->datapath = $saveto;
     }
@@ -42,6 +42,11 @@ class jstore
         $JSTORE_DIR         = str_replace(DIRECTORY_SEPARATOR, '/', __DIR__);
         $JSTORE_DOCS_ROOT   = str_replace(DIRECTORY_SEPARATOR, '/', isset($_SERVER['DOCUMENT_ROOT']) ? realpath($_SERVER['DOCUMENT_ROOT']) : dirname(__DIR__));
         return trim(str_replace($JSTORE_DOCS_ROOT, '', $JSTORE_DIR), "/");
+    }
+
+    public static function fsdir()
+    {
+        return dirname(__file__);
     }
 
     // Add HTML to include the javascript used for admin pages (jdorn's fantastic 'json-editor')
