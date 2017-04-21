@@ -158,7 +158,8 @@ class jstore
             $data = new jstoreObject($this);
             $data->key = $_POST['key'];
             $data->json = $_POST['json'];
-            return $data->save();
+            $data->save();
+            exit('jstoresuccess');
         }
     }
 }

@@ -1,6 +1,7 @@
     <div class="row">
         <div id='<?= $key ?>_settings'></div>
             <span class="pull-right">
+            <span id="<?=$key?>_confmessage"></span>
             <button id='<?= $key ?>_submit' class="btn btn-primary">Save <?= $key ?></button>
         </span>    
     </div>
@@ -19,9 +20,17 @@
     });
     
     // Hook up the submit button to log to the console
-    document.getElementById('<?= $key ?>_submit').addEventListener('click',function() {
+    document.getElementById('<?= $key ?>_submit').addEventListener('click',function(  ) {
         $.post( "<?=$this->adminpost?>", { "key": "<?= $key ?>", "json": JSON.stringify(<?= $key ?>_editor.getValue(), null, 2) } , function( data ) {
-            location.reload();
+            if(data == 'jstoresuccess'){
+                message = 'Saved!';
+            }
+            else{
+                message = 'Something went wrong...';
+            }
+            $('#<?=$key?>_confmessage').show();
+            $("#<?=$key?>_confmessage").text(message);
+            $('#<?=$key?>_confmessage').fadeOut('slow');
         });
     });
     </script>
