@@ -1,5 +1,7 @@
 <?php
 
+namespace jstore;
+
 class jstore
 {
     private $json;
@@ -27,7 +29,7 @@ class jstore
     public function __construct($saveto = '')
     {
         if ($saveto == '') {
-            $saveto = jstore::fsdir().'/data';
+            $saveto = jstore::fsdir().'/../data';
         }
         // If storage destination doesn't exist, initiate it, using defaults
         if (!file_exists($saveto)) {
