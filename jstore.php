@@ -106,8 +106,15 @@ class jstore
     // Make sure you have run jstore::script() on your page first, or nothing will display
     public function admin($key)
     {
-        $defaults = $this->exists($key) ? 'startval: '.$this->get($key)->toJSON().',' : null;
-        $schema = file_get_contents($this->datapath."/schemas/".$key.".json");
+        $default = $this->get($key)->toArray();
+        ob_start();
+        include($this->datapath."/schemas/".$key.".json");
+        $schema = ob_get_clean();
+        $schema_array = json_decode($schema, true);
+        foreach ($default as $arraykey => $entry) {
+            $schema_array['properties'][$arraykey]['default'] = $entry;
+        }
+        $schema = json_encode($schema_array, JSON_PRETTY_PRINT);
         ob_start();
         include('admintemplate.php');
         $output = ob_get_clean();

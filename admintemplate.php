@@ -15,7 +15,6 @@
     disable_edit_json: true,
     disable_properties: true,
     disable_collapse: true,
-    <?=$defaults?>
     //remove_empty_properties: true,
         schema: <?= $schema ?>
     });
