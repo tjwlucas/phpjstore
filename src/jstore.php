@@ -59,7 +59,7 @@ class jstore
         if ($jquery == true) {    // If $jquery is set to true, it will include a copy of that, too, using CDN
             $output .= '<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>';
         }
-        $output .= '<script src="'.jstore::dir().'/jsoneditor.min.js"></script>';
+        $output .= '<script src="/'.jstore::dir().'/jsoneditor.min.js"></script>';
         return $output;
     }
 
