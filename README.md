@@ -11,7 +11,7 @@ The admin interface uses the Jeremy Dorn's [json-editor][je] (included in the pa
 [jq]: https://github.com/jquery/jquery
 [bs]: https://github.com/twbs/bootstrap
 
-## Installation/Usage
+## Installation/Setup
 Using composer:
 
 	composer require tlucas/phpjstore
@@ -26,3 +26,25 @@ Then you can instantiate a data store object with
 	$store = new jstore('mydata');
 
 Which will store all the data in the `mydata` directory (relative to your current script).
+
+### Basic usage
+
+To intereact with a data object, first you need to create a data object. This is done, using the `$store` object defined above, by calling the `get()` method:
+
+	$data = $store->get('somekey');
+
+This has now created an object `$data` containing the data stored using the `somekey` key. If that key doesn't yet exist, this will be an empty data object. 
+
+Once you have the object in `$object` you can set some values using `set()`:
+
+	$data->set(['firstkey' => 'firstvalue', 'secondkey' => 'secondvalue']);
+
+This will only set the specified values (it will not affect the other values stored in the object) so if we then do:
+
+	$data->set(['thirdkey' => 'thirdvalue']);
+
+All three values will now be held on that object.
+
+At the moment, the object has only been modified in memory, so to save the changes permanently, just call:
+
+	$data->save();
