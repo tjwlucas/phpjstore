@@ -1,10 +1,9 @@
-    <div class="row">
-        <div id='<?= $key ?>_settings'></div>
-            <span class="pull-right">
-            <span id="<?=$key?>_confmessage"></span>
-            <button id='<?= $key ?>_submit' class="btn btn-primary">Save <?= $key ?></button>
-        </span>    
-    </div>
+<div id='<?= $key ?>_settings' style="width: 100%; overflow-x: hidden;"></div>
+    <span class="pull-right">
+    <span id="<?=$key?>_confmessage"></span>
+    <button id='<?= $key ?>_submit' class="btn btn-primary">Save <?= $key ?></button>
+</span>    
+
 
     <script>
     
