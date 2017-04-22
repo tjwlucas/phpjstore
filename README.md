@@ -11,7 +11,6 @@ Phpjstore provides a class to save and access schemaless data in a flatfile JSON
   * [Admin](#admin)
     + [Scripts/styles](#scriptsstyles)
     + [Endpoint](#endpoint)
-      - [Important](#important)
     + [Data schema](#data-schema)
     + [Forms](#forms)
 
@@ -136,7 +135,7 @@ If you placed this endpoing in a *separate* file (e.g. `/path/to/submit.php`), y
 
 	$store->adminpost = '/path/to/submit.php';
 
-#### Important
+***Important:***
 Be aware that ***anyone*** who has access to the endpoint you set here ***will be able to modify your data***, so make sure you protect it, either by putting the file in a restricted directory (Using `.htaccess` on Apache, for instance) or eclosing the method call in an authentication check, using whatever authentication system you choose):
 
 	if( /* User is authenticated */ ){
