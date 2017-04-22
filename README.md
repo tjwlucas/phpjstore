@@ -2,6 +2,19 @@
 
 Phpjstore provides a class to save and access schemaless data in a flatfile JSON backend.
 
+
+- [phpjstore](#phpjstore)
+  * [Requirements](#requirements)
+  * [Installation/Setup](#installationsetup)
+    + [Basic usage](#basic-usage)
+    + [Globals](#globals)
+  * [Admin](#admin)
+    + [Scripts/styles](#scriptsstyles)
+    + [Endpoint](#endpoint)
+      - [Important](#important)
+    + [Data schema](#data-schema)
+    + [Forms](#forms)
+
 ## Requirements
 Phpjstore iself doesn't require any dependencies.
 
