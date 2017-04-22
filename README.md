@@ -5,7 +5,7 @@ Phpjstore provides a class to save and access schemaless data in a flatfile JSON
 ## Requirements
 Phpjstore iself doesn't require any dependencies.
 
-The admin interface uses the Jeremy Dorn's [json-editor][je] (included in the package), [jquery][jq], and [Bootstrap 3][bs]. Both of these can be included directly in your page (using CDN
+The admin interface uses the Jeremy Dorn's [json-editor][je] (included in the package), [jquery][jq], and [Bootstrap 3][bs]. Both of these can be included directly in your page (using CDN)
 
 [je]: https://github.com/jdorn/json-editor/
 [jq]: https://github.com/jquery/jquery
@@ -45,6 +45,46 @@ This will only set the specified values (it will not affect the other values sto
 
 All three values will now be held on that object.
 
+If we want to delete the first variable we set earlier:
+
+	$data->delete('firstkey');
+
+So now, our stored object looks like this (if we do `print_r($data->toArray());`):
+
+	Array
+	(
+    	[secondkey] => secondvalue
+    	[thirdkey] => thirdvalue
+	)
+
+	
+
 At the moment, the object has only been modified in memory, so to save the changes permanently, just call:
 
 	$data->save();
+
+#### Globals
+
+Phpjstore includes some shortcuts to the above functions for storing and retrieving global variables:
+
+To set a global variable:
+
+	$store->setGlobal(['varname' => 'varvalue']);
+
+(Note: this *will* immediately save the variable to the storage backend)
+
+And to retrieve the variable we just set:
+
+	$store->getGlobal('varname');
+
+To list all Globals that are stored in this way:
+
+	$store->getGlobals();
+
+Which will return a list of the keys.
+
+To delete one of these stored variables:
+
+	$store->deleteGlobal('varname');
+
+(Note: again, this *will* immediately save the variable to the storage backend)
