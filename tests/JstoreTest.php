@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,7 +16,7 @@ final class jstoreMainTest extends TestCase
 	/**
      * @depends testInitialiseDataStore
      */
-	public function testCanInstantiateEmptyStructure($store): void
+	public function testCanInstantiateEmptyStructure($store)
     {
         $this->assertInstanceOf(
 			jstore\jstoreObject::class,
@@ -28,7 +26,7 @@ final class jstoreMainTest extends TestCase
 	/**
      * @depends testInitialiseDataStore
      */
-	public function testStoringGlobalInStore($store) : void {
+	public function testStoringGlobalInStore($store) {
 			$store->setGlobal(['test' =>'value']);
 			$this->assertEquals('value', $store->getGlobal('test'));
 	}
