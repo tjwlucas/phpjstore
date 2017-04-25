@@ -73,6 +73,24 @@ So now, our stored object looks like this (if we do `echo $data;`):
 	    "thirdkey": "thirdvalue"
 	}
 	
+To access these values:
+
+	echo $data->firstkey;
+
+Will print `firstvalue`.
+
+If you prefer to work with arrays,
+
+	$data->toArray();
+
+will return the array:
+
+	Array
+	(
+	    [firstkey] => firstvalue
+	    [secondkey] => secondvalue
+	    [thirdkey] => thirdvalue
+	)
 
 At the moment, the object has only been modified in memory, so to save the changes permanently, just call:
 
