@@ -4,9 +4,7 @@ namespace jstore;
 
 class jstoreObject
 {
-    private $json;
     private $store;
-    private $jstoreObjectKey;
     public function __construct($store)
     {        
         $this->store = $store;
@@ -14,16 +12,6 @@ class jstoreObject
 
     public function __toString(){
         return $this->toJSON();
-    }
-
-    public function setKey($key){
-        $this->jstoreObjectKey = $key;
-    }
-    /** Call save() method to save modifications made to the object */
-    public function save()
-    {
-        $json = $this->toJSON();
-        return file_put_contents($this->store->datapath."/data/$this->jstoreObjectKey.json", $json);
     }
     
     /** Outputs the object as a JSON */

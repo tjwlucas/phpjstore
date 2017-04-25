@@ -71,14 +71,14 @@ class jstore
         return '<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">';
     }
 
-    public function JsonToObj($json){
+    public function JsonToObj($json, $root = False){
         $array = json_decode($json, $assoc = true);
         $obj = $this->ArrayToObj($array);
         return $obj;
     }
     
-    public function ArrayToObj($array){
-        $obj = new jstoreObject($this);
+    public function ArrayToObj($array, $root = False){
+        $obj = !$root ? new jstoreRootObject($this) : new jstoreObject($this);
         foreach( $array as $arraykey => $arrayval){
             if( is_array($arrayval) ){
                 $obj->$arraykey = $this->ArrayToObj($arrayval);
@@ -120,7 +120,7 @@ class jstore
         //$item = new jstoreObject($this);
         if ($this->exists($key)) {
                 $json = file_get_contents($this->datapath.'/data/'.$key.'.json');
-                $item = $this->JsonToObj($json);
+                $item = $this->JsonToObj($json, $root = True);
         } 
         $item->setKey($key);
         return $item;
