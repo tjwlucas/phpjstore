@@ -41,7 +41,7 @@ Which will store all the data in the `mydata` directory (relative to your curren
 
 ### Basic usage
 
-To intereact with a data object, first you need to create a data object. This is done, using the `$store` object defined above, by calling the `get()` method:
+To interact with a data object, first you need to create a data object. This is done, using the `$store` object defined above, by calling the `get()` method:
 
 	$data = $store->get('somekey');
 
@@ -55,20 +55,23 @@ This will only set the specified values (it will not affect the other values sto
 
 	$data->set(['thirdkey' => 'thirdvalue']);
 
+This is also equivalent to
+
+	$data->thirdkey = 'thirdvalue';
+
 All three values will now be held on that object.
 
 If we want to delete the first variable we set earlier:
 
 	$data->delete('firstkey');
 
-So now, our stored object looks like this (if we do `print_r($data->toArray());`):
+So now, our stored object looks like this (if we do `echo $data;`):
 
-	Array
-	(
-    	[secondkey] => secondvalue
-    	[thirdkey] => thirdvalue
-	)
-
+	{
+	    "firstkey": "firstvalue",
+	    "secondkey": "secondvalue",
+	    "thirdkey": "thirdvalue"
+	}
 	
 
 At the moment, the object has only been modified in memory, so to save the changes permanently, just call:

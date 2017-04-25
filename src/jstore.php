@@ -65,18 +65,24 @@ class jstore
         return $output;
     }
 
+    /** Include a CDN copy of bootstrap3, if wanted, for rendering the admin interface */
     public static function bootstrap3()
     {
-   /** Include a CDN copy of bootstrap3, if wanted, for rendering the admin interface */
         return '<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">';
     }
 
+    /** Instantiates a new object, using data provided in a JSON format as $json ($root determines if 
+    * it is the 'root' object, as opposed to an object as a proprty on another object) 
+    */
     public function JsonToObj($json, $root = False){
         $array = json_decode($json, $assoc = true);
         $obj = $this->ArrayToObj($array);
         return $obj;
     }
     
+    /** Same as JsonToObj, except it takes in an array, rather than a JSON
+    * For both methods, this is where the work actually happens
+    */
     public function ArrayToObj($array, $root = False){
         $obj = !$root ? new jstoreRootObject($this) : new jstoreObject($this);
         foreach( $array as $arraykey => $arrayval){
@@ -120,7 +126,9 @@ class jstore
         if ($this->exists($key)) {
                 $json = file_get_contents($this->datapath.'/data/'.$key.'.json');
                 $item = $this->JsonToObj($json, $root = True);
-        } 
+        } else {
+            $item = new jstoreRootObject($this);
+        }
         $item->setKey($key);
         return $item;
     }
