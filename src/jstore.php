@@ -8,8 +8,9 @@ class jstore
     public $datapath;
     public $adminpost;
 
-    // Recursive copy function from comment at https://secure.php.net/manual/en/function.copy.php#91010
-    // Used in __construct() to populate the storage destination from the default structure
+    /** Recursive copy function from comment at https://secure.php.net/manual/en/function.copy.php#91010
+    * Used in __construct() to populate the storage destination from the default structure
+	*/
     private static function recurse_copy($src, $dst)
     {
         $dir = opendir($src);
@@ -38,7 +39,7 @@ class jstore
         $this->datapath = $saveto;
     }
 
-    // Used to get the directory where this class file is located
+    /** Used to get the directory where this class file is located */
     public static function dir()
     {
         $JSTORE_DIR         = str_replace(DIRECTORY_SEPARATOR, '/', __DIR__);
@@ -51,8 +52,9 @@ class jstore
         return dirname(__file__);
     }
 
-    // Add HTML to include the javascript used for admin pages (jdorn's fantastic 'json-editor')
-    // https://github.com/jdorn/json-editor
+    /** Add HTML to include the javascript used for admin pages (jdorn's fantastic 'json-editor')
+    * https://github.com/jdorn/json-editor
+	*/
     public static function script($jquery = false)
     {
         $output = '';
@@ -65,11 +67,11 @@ class jstore
 
     public static function bootstrap3()
     {
-   // Include a CDN copy of bootstrap3, if wanted, for rendering the admin interface
+   /** Include a CDN copy of bootstrap3, if wanted, for rendering the admin interface */
         return '<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">';
     }
 
-    // Obtain a list of keys (JSON files) stored in datapath
+    /** Obtain a list of keys (JSON files) stored in datapath */
     public function getSets()
     {
         $setlist = [];
@@ -80,7 +82,7 @@ class jstore
         return $setlist;
     }
 
-    // Returns a list of available schemas (JSON files) stored in [datapath]/schemas
+    /** Returns a list of available schemas (JSON files) stored in [datapath]/schemas */
     public function getSchemas()
     {
         $setlist = [];
@@ -91,8 +93,9 @@ class jstore
         return $setlist;
     }
 
-    // Returns jstoreObject item with the specified key (If there are data stored for it,
-    // it will be populated, but otherwise will instantiate an empty object)
+    /** Returns jstoreObject item with the specified key (If there are data stored for it,
+    * it will be populated, but otherwise will instantiate an empty object)
+	*/
     public function get($key)
     {
         $item = new jstoreObject($this);
@@ -109,8 +112,9 @@ class jstore
         return file_exists($this->datapath.'/data/'.$key.'.json');
     }
 
-    // Returns an admin panel for editing data, as defined in a schema in [datastore]/schemas
-    // Make sure you have run jstore::script() on your page first, or nothing will display
+    /** Returns an admin panel for editing data, as defined in a schema in [datastore]/schemas
+    * Make sure you have run jstore::script() on your page first, or nothing will display
+	*/
     public function admin($key)
     {
         $default = $this->get($key)->toArray();
@@ -128,8 +132,9 @@ class jstore
         return $output;
     }
 
-    // Shortcut to store simple global variables i.e. use $jstore->setGlobal(['key'=>'value'])
-    // (Where $jstore is your jstore object)
+    /** Shortcut to store simple global variables i.e. use $jstore->setGlobal(['key'=>'value'])
+    *	(Where $jstore is your jstore object)
+	*/
     public function setGlobal($array)
     {
         $obj = $this->getGlobals();
@@ -137,36 +142,40 @@ class jstore
         $obj->save();
     }
     
-    // Shortcut to retrieve all global variables
-    // The above example would be retrieved with $jstore->getGlobals()
-    // And would retrieve the full array of global variables
-    // So $jstore->getGlobals()['key'] would be your 'value' string
+    /** Shortcut to retrieve all global variables
+    * The above example would be retrieved with $jstore->getGlobals()
+    * And would retrieve the full array of global variables
+    * So $jstore->getGlobals()['key'] would be your 'value' string
+	*/
     public function getGlobals()
     {
         return $this->get('../global');
     }
 
-    // Shortcut to retrieve simple global variables
-    // The above example would be retrieved with $jstore->getGlobal('key')
-    // And would retrieve your 'value' string
+    /** Shortcut to retrieve simple global variables
+    * The above example would be retrieved with $jstore->getGlobal('key')
+    * And would retrieve your 'value' string
+	*/
     public function getGlobal($key)
     {
         $array = $this->getGlobals()->toArray();
         return $array[$key];
     }
 
-    // Shortcut to delete a global variable
-    // e.g. to delete the above example:  $jstore->deleteGlobal('key')
-    // Nothing is returned
+    /** Shortcut to delete a global variable
+    * e.g. to delete the above example:  $jstore->deleteGlobal('key')
+    * Nothing is returned
+	*/
     public function deleteGlobal($key)
     {
         $this->getGlobals()->delete($key)->save();
     }
 
-    // Place registerEndpoint() at the top of the destination specified in the $adminpost property
-    // Must be placed before any output is sent for the response to return correctly
-    // Rememmber that anyone who can send data to this method can modify your data, so make sure only 
-    // Authorised users have access to wherever you put it!
+    /** Place registerEndpoint() at the top of the destination specified in the $adminpost property
+    * Must be placed before any output is sent for the response to return correctly
+    * Rememmber that anyone who can send data to this method can modify your data, so make sure only 
+    * Authorised users have access to wherever you put it!
+	*/
     public function registerEndpoint()
     {
         if (isset($_POST['key']) and isset($_POST['json'])) {
