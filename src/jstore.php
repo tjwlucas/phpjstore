@@ -134,7 +134,7 @@ class jstore
 	*/
     public function admin($key)
     {
-        $default = $this->get($key)->toArray();
+        $default = $this->get($key);
         ob_start();
         include($this->datapath."/schemas/".$key.".json");
         $schema = ob_get_clean();
