@@ -48,9 +48,7 @@ class jstoreObject
     /** Deletes the entry corrensponding to the given key in the object instance: $thisobj->delete('key') */
     public function delete($key)
     {
-        $array = $this->toArray();
-        unset($array[$key]);
-        $this->json = json_encode($array, JSON_PRETTY_PRINT);
+        unset($this->$key);
         return $this;
     }
 }

@@ -117,7 +117,6 @@ class jstore
 	*/
     public function get($key)
     {
-        //$item = new jstoreObject($this);
         if ($this->exists($key)) {
                 $json = file_get_contents($this->datapath.'/data/'.$key.'.json');
                 $item = $this->JsonToObj($json, $root = True);
@@ -197,9 +196,8 @@ class jstore
     public function registerEndpoint()
     {
         if (isset($_POST['key']) and isset($_POST['json'])) {
-            $data = new jstoreObject($this);
-            $data->key = $_POST['key'];
-            $data->json = $_POST['json'];
+            $data = $this->JsonToObj($_POST['json'], $root = True);
+            $data->setKey($_POST['key']);
             $data->save();
             exit('jstoresuccess');
         }
