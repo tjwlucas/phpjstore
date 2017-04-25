@@ -100,11 +100,13 @@ class jstore
     {
         $item = new jstoreObject($this);
         if ($this->exists($key)) {
-                $item->json = file_get_contents($this->datapath.'/data/'.$key.'.json');
+                $array = (array) json_decode(file_get_contents($this->datapath.'/data/'.$key.'.json'));
+                foreach($array as $arraykey => $value){
+                    $item->$arraykey = $value;
+                }
         } else {
             $item->json = '{}';
         }
-        $item->key = $key;
         return $item;
     }
 

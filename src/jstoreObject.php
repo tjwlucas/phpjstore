@@ -4,8 +4,8 @@ namespace jstore;
 
 class jstoreObject
 {
-    public $json;
-    public $key;
+    private $json;
+    private $store;
     public function __construct($store)
     {
         $this->store = $store;
@@ -13,7 +13,16 @@ class jstoreObject
     /** Call save() method to save modifications made to the object */
     public function save()
     {
-        return file_put_contents($this->store->datapath."/data/$this->key.json", $this->json);
+        $allvals = Array();
+        $reflection = new \ReflectionObject($this);
+        $properties = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);
+        print_r($properties);
+        foreach($properties as $prop){
+            $propkey = $prop->getName();
+            $allvals[$propkey] = $this->$propkey;
+        }
+        $json = json_encode($allvals, JSON_PRETTY_PRINT);
+        return file_put_contents($this->store->datapath."/data/$this->key.json", $json);
     }
     
     /** Outputs the object as a JSON */
