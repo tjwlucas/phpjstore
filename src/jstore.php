@@ -71,6 +71,25 @@ class jstore
         return '<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">';
     }
 
+    public function JsonToObj($json){
+        $array = json_decode($json, $assoc = true);
+        $obj = $this->ArrayToObj($array);
+        return $obj;
+    }
+    
+    public function ArrayToObj($array){
+        $obj = new jstoreObject($this);
+        foreach( $array as $arraykey => $arrayval){
+            if( is_array($arrayval) ){
+                $obj->$arraykey = $this->ArrayToObj($arrayval);
+            }
+            else{
+                $obj->$arraykey = $arrayval;
+            }
+        }
+        return $obj;
+    }
+
     /** Obtain a list of keys (JSON files) stored in datapath */
     public function getSets()
     {
@@ -98,15 +117,12 @@ class jstore
 	*/
     public function get($key)
     {
-        $item = new jstoreObject($this);
+        //$item = new jstoreObject($this);
         if ($this->exists($key)) {
-                $array = (array) json_decode(file_get_contents($this->datapath.'/data/'.$key.'.json'));
-                foreach($array as $arraykey => $value){
-                    $item->$arraykey = $value;
-                }
-        } else {
-            $item->json = '{}';
-        }
+                $json = file_get_contents($this->datapath.'/data/'.$key.'.json');
+                $item = $this->JsonToObj($json);
+        } 
+        $item->setKey($key);
         return $item;
     }
 

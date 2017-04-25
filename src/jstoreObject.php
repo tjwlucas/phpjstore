@@ -6,35 +6,44 @@ class jstoreObject
 {
     private $json;
     private $store;
+    private $jstoreObjectKey;
     public function __construct($store)
-    {
+    {        
         $this->store = $store;
+    }
+
+    public function __toString(){
+        return $this->toJSON();
+    }
+
+    public function setKey($key){
+        $this->jstoreObjectKey = $key;
     }
     /** Call save() method to save modifications made to the object */
     public function save()
     {
+        $json = $this->toJSON();
+        return file_put_contents($this->store->datapath."/data/$this->jstoreObjectKey.json", $json);
+    }
+    
+    /** Outputs the object as a JSON */
+    public function toJSON()
+    {   
         $allvals = Array();
         $reflection = new \ReflectionObject($this);
         $properties = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);
-        print_r($properties);
         foreach($properties as $prop){
             $propkey = $prop->getName();
             $allvals[$propkey] = $this->$propkey;
         }
         $json = json_encode($allvals, JSON_PRETTY_PRINT);
-        return file_put_contents($this->store->datapath."/data/$this->key.json", $json);
-    }
-    
-    /** Outputs the object as a JSON */
-    public function toJSON()
-    {
-        return $this->json;
+        return $json;
     }
 
     /** Outputs the object as a PHP Array */
     public function toArray()
     {
-        $array = json_decode($this->json, true);
+        $array = json_decode($this->toJSON(), true);
         return $array;
     }
 
@@ -43,9 +52,8 @@ class jstoreObject
     {
         $array = $this->toArray();
         foreach ($newvalues as $key => $value) {
-            $array[$key] = $value;
+            $this->$key = $value;
         }
-        $this->json = json_encode($array, JSON_PRETTY_PRINT);
         return $this;
     }
 
