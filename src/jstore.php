@@ -201,13 +201,17 @@ class jstore
     * Rememmber that anyone who can send data to this method can modify your data, so make sure only 
     * Authorised users have access to wherever you put it!
 	*/
-    public function registerEndpoint()
+    public function registerEndpoint($exit = True)
     {
         if (isset($_POST['key']) and isset($_POST['json'])) {
             $data = $this->JsonToObj($_POST['json'], $root = True);
             $data->setKey($_POST['key']);
             $data->save();
-            exit('jstoresuccess');
+            $successresponse = 'jstoresuccess';
+            if($exit == True)
+                exit($successresponse);
+            else
+                return $successresponse;
         }
     }
 }
