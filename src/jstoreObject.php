@@ -24,7 +24,7 @@ class jstoreObject
             $propkey = $prop->getName();
             $allvals[$propkey] = $this->$propkey;
         }
-        $json = json_encode($allvals, JSON_PRETTY_PRINT);
+        $json = json_encode($allvals, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         return $json;
     }
 
