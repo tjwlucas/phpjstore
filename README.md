@@ -1,5 +1,9 @@
 # phpjstore
 
+[![Latest Stable Version](https://poser.pugx.org/tlucas/phpjstore/v/stable)](https://packagist.org/packages/tlucas/phpjstore)
+[![Latest Unstable Version](https://poser.pugx.org/tlucas/phpjstore/v/unstable)](https://packagist.org/packages/tlucas/phpjstore)
+[![License](https://poser.pugx.org/tlucas/phpjstore/license)](https://packagist.org/packages/tlucas/phpjstore)
+
 Phpjstore provides a class to save and access schemaless data in a flatfile JSON backend.
 
 
