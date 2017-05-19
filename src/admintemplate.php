@@ -1,8 +1,8 @@
 <div id='<?= $key ?>_settings' style="width: 100%; overflow-x: hidden;"></div>
-    <span class="pull-right">
+    <div class="text-right">
     <span id="<?=$key?>_confmessage"></span>
     <button id='<?= $key ?>_submit' class="btn btn-primary">Save <?= $key ?></button>
-</span>    
+</div>    
 
 
     <script>
